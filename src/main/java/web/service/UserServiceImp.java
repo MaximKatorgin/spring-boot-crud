@@ -32,9 +32,9 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void update(Long id, String name, int age, long phone, String password,String rolesString) {
-        User user = new User(name, age, phone, password, parseRolesString(rolesString));
-        userDao.update(user, id);
+    public void update(User user, String rolesString) {
+        user.setRoles(parseRolesString(rolesString));
+        userDao.update(user, user.getId());
     }
 
     @Override

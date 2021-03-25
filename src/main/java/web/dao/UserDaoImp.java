@@ -27,8 +27,9 @@ public class UserDaoImp implements UserDao {
         User tmpUser = entityManager.getReference(User.class, id);
         tmpUser.setName(user.getName());
         tmpUser.setAge(user.getAge());
-        tmpUser.setPhone(user.getPhone());
+        tmpUser.setLastName(user.getLastName());
         tmpUser.setPassword(user.getPassword());
+        tmpUser.setEmail(user.getEmail());
         tmpUser.setRoles(user.getRoles());
     }
 

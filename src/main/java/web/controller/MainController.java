@@ -8,21 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import web.model.User;
 
+
 @Controller
 @RequestMapping("/")
 public class MainController {
-
-    @GetMapping("login")
-    public String loginPage() {
-        return "login";
-    }
 
     @GetMapping("/user")
     public String userInfoPage(ModelMap modelMap, @AuthenticationPrincipal User user) {
         modelMap.addAttribute("username", SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal());
-        modelMap.addAttribute("user", user);
-        return "userInfo";
+        modelMap.addAttribute("current_user", user);
+        return "index";
     }
 
     @GetMapping

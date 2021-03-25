@@ -5,9 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 //UserDetails для определения User как пользователя в системе
@@ -27,8 +27,11 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @Column(name = "phone")
-    private long phone;
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
@@ -38,18 +41,13 @@ public class User implements UserDetails {
     }
 
 
-    public User(String name, int age, long phone) {
+    public User(String name, int age, String lastName, String password, String email, Set<Role> roles) {
         this.name = name;
         this.age = age;
-        this.phone = phone;
-    }
-
-    public User(String name, int age, long phone, String password, Set<Role> roles) {
-        this.name = name;
-        this.age = age;
-        this.phone = phone;
+        this.lastName = lastName;
         this.password = password;
         this.roles = roles;
+        this.email = email;
     }
 
     public void setId(Long id) {
@@ -76,12 +74,12 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public long getPhone() {
-        return phone;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setPhone(long phone) {
-        this.phone = phone;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setPassword(String password) {
@@ -93,12 +91,20 @@ public class User implements UserDetails {
     }
 
     public String getRolesString() {
-        StringBuilder sb = new StringBuilder();
-        return Arrays.toString(getRoles().toArray());
+        return roles.stream().map(role -> role.getRole().split("_")[1]).collect(Collectors.joining(", "));
+//        return Arrays.toString(getRoles().toArray());
     }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
